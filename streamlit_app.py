@@ -32,9 +32,9 @@ prompt = st.text_input("Prompt", "The quick brown fox jumps over the lazy dog.")
 if st.button("Generate"):
   with st.spinner("Generating..."):
     driver.get("https://deepai.org/machine-learning-model/text-generator")
-    print(driver.page_source)
+    #print(driver.page_source)
     time.sleep(5)
-
+    print("Inserimento : ")
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
     time.sleep(5)
