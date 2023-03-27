@@ -49,5 +49,5 @@ if st.button("Chiedi 🚀"):
     while result == "":
         result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
         time.sleep(0.1)
-    st.code(result)
+    st.write(result)
   
