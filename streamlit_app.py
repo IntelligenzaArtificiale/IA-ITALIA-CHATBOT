@@ -33,22 +33,19 @@ if st.button("Generate"):
   with st.spinner("Generating..."):
     driver.get("https://deepai.org/machine-learning-model/text-generator")
     #print(driver.page_source)
-    time.sleep(5)
     print("Inserimento : ")
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
-    time.sleep(5)
     print(textarea.text)
     
     button = driver.find_element(By.ID, "modelSubmitButton")
-    time.sleep(5)
+    time.sleep(1)
     button.click()
     # wait for result
     #ogni 3 secondi controlla se il risultato è pronto
-    time.sleep(5)
     result = ""
     while result == "":
         result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
-        time.sleep(3)
+        time.sleep(0.1)
     st.write(result)
   
