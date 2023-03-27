@@ -6,8 +6,10 @@ import streamlit as st
 """
 
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 @st.experimental_singleton
@@ -26,15 +28,17 @@ if st.button("Generate"):
     driver.get("https://deepai.org/machine-learning-model/text-generator")
     st.code(driver.page_source)
 
-    textarea = driver.find_element("class", "model-input-text-input")
+
+    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
-    button = driver.find_element("id", "modelSubmitButton")
+    
+    button = driver.find_element(By.ID, "modelSubmitButton")
     button.click()
     # wait for result
     #ogni 3 secondi controlla se il risultato è pronto
     reuslt = ""
     while result == "":
-        result = driver.find_element("class", "try-it-result-area").text
+        result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
         time.sleep(3)
     st.write(result)
   
