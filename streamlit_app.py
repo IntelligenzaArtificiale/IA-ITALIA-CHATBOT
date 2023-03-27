@@ -21,8 +21,9 @@ def get_driver():
 options = Options()
 options.add_argument('--disable-gpu')
 options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')      
-chrome_options.add_argument('--disable-dev-shm-usage')        
+options.add_argument('--no-sandbox')      
+options.add_argument('--disable-dev-shm-usage')        
+options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
 
 driver = get_driver()
 
