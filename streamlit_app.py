@@ -30,15 +30,15 @@ prompt = st.text_input("Prompt", "The quick brown fox jumps over the lazy dog.")
 if st.button("Generate"):
   with st.spinner("Generating..."):
     driver.get("https://deepai.org/machine-learning-model/text-generator")
-    textarea = driver.find_element_by_class_name("model-input-text-input")
+    textarea = driver.find_element("class", "model-input-text-input")
     textarea.send_keys(prompt)
-    button = driver.find_element_by_id("modelSubmitButton")
+    button = driver.find_element("id", "modelSubmitButton")
     button.click()
     # wait for result
     #ogni 3 secondi controlla se il risultato è pronto
     reuslt = ""
     while result == "":
-        result = driver.find_element_by_class_name("try-it-result-area").text
+        result = driver.find_element("class", "try-it-result-area").text
         time.sleep(3)
     st.code(result)
   
