@@ -20,12 +20,6 @@ options.add_argument('--headless')
 
 driver = get_driver()
 
-# open https://deepai.org/machine-learning-model/text-generator
-# find textarea with class "model-input-text-input"
-# send prompt variable to textarea
-# click button with id = "modelSubmitButton"
-# read all text int div with class "try-it-result-area"
-
 prompt = st.text_input("Prompt", "The quick brown fox jumps over the lazy dog.")
 if st.button("Generate"):
   with st.spinner("Generating..."):
@@ -42,5 +36,5 @@ if st.button("Generate"):
     while result == "":
         result = driver.find_element("class", "try-it-result-area").text
         time.sleep(3)
-    st.code(result)
+    st.write(result)
   
