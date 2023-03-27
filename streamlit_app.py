@@ -1,5 +1,6 @@
 
 import streamlit as st
+st.set_page_config(layout="wide")
 
 """
 ### Il chatBOT di [Intelligenza Artificiale Italia](https://www.intelligenzaartificialeitalia.net/)🧠🤖🇮🇹 
@@ -15,7 +16,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time 
 
-st.set_page_config(layout="wide")
+
 
 @st.cache_resource
 def get_driver():
