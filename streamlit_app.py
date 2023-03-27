@@ -2,7 +2,10 @@
 import streamlit as st
 
 """
-## Web scraping on Streamlit Cloud with Selenium
+## Il chatBOT di [Intelligenza Artificiale Italia](https://www.intelligenzaartificialeitalia.net/)🧠🤖🇮🇹 
+
+🤔 Puoi chiedergli qualunque cosa...
+
 """
 
 from selenium import webdriver
@@ -47,5 +50,5 @@ if st.button("Generate"):
     while result == "":
         result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
         time.sleep(0.1)
-    st.write(result)
+    st.code(result)
   
