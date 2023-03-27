@@ -4,7 +4,6 @@ import streamlit as st
 """
 ## Il chatBOT di [Intelligenza Artificiale Italia](https://www.intelligenzaartificialeitalia.net/)🧠🤖🇮🇹 
 
-🤔 Puoi chiedergli qualunque cosa...
 
 """
 
@@ -30,10 +29,10 @@ options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) A
 
 driver = get_driver()
 
-prompt = st.text_input("Prompt", "The quick brown fox jumps over the lazy dog.")
+prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intellihenza Artificiale")
 
-if st.button("Generate"):
-  with st.spinner("Generating..."):
+if st.button("Chiedi 🚀"):
+  with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
     driver.get("https://deepai.org/machine-learning-model/text-generator")
     #print(driver.page_source)
     print("Inserimento : ")
