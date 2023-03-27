@@ -46,7 +46,7 @@ if st.button("Generate"):
     # wait for result
     #ogni 3 secondi controlla se il risultato è pronto
     time.sleep(5)
-    reusult = ""
+    result = ""
     while result == "":
         result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
         time.sleep(3)
