@@ -107,8 +107,7 @@ def Generate(request):
 	try:
 		generator = Craiyon()
 		result = generator.generate(request) 
-		images = result.images
-		return images
+		return result.images
 	except:
 		return "Error"
 
@@ -127,9 +126,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             image_files = Generate(new_request)
             if image_files != "Error":
                 for i in image_files:
-                    img_data = BytesIO(base64.decodebytes(i.encode("utf-8")))
-                    img = Image.open(img_data)
-                    html_image = f'<img src="data:image/png;base64,{base64.b64encode(i.encode()).decode()}"/>'
+                    html_image = f'<img src="{i}"/>'
                     add_message(html_image, 'bot')
                 
             else:
