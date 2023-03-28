@@ -26,15 +26,18 @@ import time
 
 @st.cache_resource
 def get_driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument('--disable-gpu')
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')      
-    options.add_argument('--disable-dev-shm-usage')        
-    options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    driver.get('https://deepai.org/machine-learning-model/text-generator')
-    return driver
+  options = webdriver.ChromeOptions()
+  options.add_argument('--disable-gpu')
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')      
+  options.add_argument('--disable-dev-shm-usage')    
+  options.add_argument("--disable-features=NetworkService")
+  options.add_argument("--window-size=1920x1080")
+  options.add_argument("--disable-features=VizDisplayCompositor")    
+  options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
+  driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+  driver.get('https://deepai.org/machine-learning-model/text-generator')
+  return driver
 
 driver = get_driver()
 
@@ -50,28 +53,25 @@ if 'bot' not in st.session_state:
 
 # aggiunge il messaggio in chat
 def add_message(content, sender):
-    if sender == 'bot':
-        st.session_state['bot'].append(content)
-    else:
-        st.session_state['user'].append(content)
+  if sender == 'bot':
+      st.session_state['bot'].append(content)
+  else:
+      st.session_state['user'].append(content)
 
 
 # mostra tutti i messaggi
 def show_messages():
-    # mostra i messaggi come una chat, considerando che il bot da il messaggio di benvenuto
-    # e quindi il primo messaggio è sempre del bot
-    #pero controlla sempre che non ci sia un index out of range
-    for i in range(len(st.session_state['bot'])):
-        if i == 0:
-            message(st.session_state['bot'][i], key=str(i))
-        else:
-            message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
-            message(st.session_state['bot'][i], key=str(i))
+  for i in range(len(st.session_state['bot'])):
+      if i == 0:
+          message(st.session_state['bot'][i], key=str(i))
+      else:
+          message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+          message(st.session_state['bot'][i], key=str(i))
 
 
 prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
-if st.button("Chiedi 🚀"):
+if st.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
   try:
     #with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
