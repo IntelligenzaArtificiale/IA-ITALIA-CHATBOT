@@ -122,11 +122,12 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             prompt = prompt[4:]
             new_request = tts.google(prompt, from_language="it", to_language="en")
             image_files = Generate(new_request)
-            html_message_image = f'<div style="max-width: 400px; display: flex; flex-wrap: wrap;">'
+            html_message_image = f'<div style="max-width: 300px; display: flex; flex-wrap: wrap;">'
             if image_files != "Error":
                 for i in image_files:
                     html_image = f'<img src="{i}" style="max-width: 100%;  flex-basis: 33.33%;" />'
                     html_message_image += html_image
+                html_message_image += "</div>"
                 add_message(html_image, 'bot')
                 
             else:
