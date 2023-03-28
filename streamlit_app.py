@@ -84,23 +84,7 @@ def add_message(content, sender):
   else:
       st.session_state['user'].append(content)
       
-          
-if 'bot' in st.session_state:
-    # stampa i messaggi in modo che il più nuovo sia sempre in alto
-    # inoltre il bot può inviare più messaggi di risposta per ogni messaggio dell'utente
-    i = len(st.session_state['bot']) - 1
-    l = len(st.session_state['user']) - 1
-    if i == 0:
-        message(st.session_state['bot'][i], key=str(i), allow_html=True)
-    else:
-        i = 1
-        while i < len(st.session_state['bot']):
-            message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
-            message(st.session_state['bot'][i], key=str(i), allow_html=True)
-            i += 1
-    
-
-
+        
 def Generate(request):
 	try:
 		generator = Craiyon()
@@ -165,3 +149,18 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             
 print(st.session_state['bot'])
 print(st.session_state['user'])
+
+if 'bot' in st.session_state:
+    # stampa i messaggi in modo che il più nuovo sia sempre in alto
+    # inoltre il bot può inviare più messaggi di risposta per ogni messaggio dell'utente
+    i = len(st.session_state['bot']) - 1
+    l = len(st.session_state['user']) - 1
+    if i == 0:
+        message(st.session_state['bot'][i], key=str(i), allow_html=True)
+    else:
+        i = 1
+        while i < len(st.session_state['bot']):
+            message(st.session_state['bot'][i], key=str(i), allow_html=True)
+            message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+            
+            i += 1
