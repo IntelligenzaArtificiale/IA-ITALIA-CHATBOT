@@ -41,7 +41,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from streamlit_chat_media import message
+from streamlit_chat import message
 from craiyon import Craiyon
 from PIL import Image 
 from io import BytesIO
@@ -117,39 +117,47 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
     # se il prompt inizia con /img 
     if prompt.startswith("/img"):
       with st.spinner(" 💡 Il nostro chatBOT sta creando 9 immagini, potrebbe volerci qualche secondo ⏳"):
-        prompt = prompt[4:]
-        new_request = tts.google(prompt, from_language="it", to_language="en")
-        image_files = Generate(new_request)
-        if image_files != "Error":
-          for image in image_files:
-            image = Image.open(BytesIO(image))
-            #create html tag
-            add_message(f'<img src="data:image/png;base64,{image}">', 'bot')
+        try :
+          prompt = prompt[4:]
+          new_request = tts.google(prompt, from_language="it", to_language="en")
+          image_files = Generate(new_request)
+          if image_files != "Error":
+            for image in image_files:
+              image = Image.open(BytesIO(image))
+              img_path = f"data:image/png;base64,{base64.b64encode(image.getvalue()).decode()}"
+              add_message(f'<img width="100%" height="200" src="{img_path}"/>', 'bot')
+        except Exception as e:
+          add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
+          print(e)
+          
     else:
+        
       with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
-        textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-        textarea.send_keys(prompt)
-        time.sleep(0.05)
-        button = driver.find_element(By.ID, "modelSubmitButton")
-        button.click()
+        try:
+            textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+            textarea.send_keys(prompt)
+            time.sleep(0.05)
+            button = driver.find_element(By.ID, "modelSubmitButton")
+            button.click()
 
-        result = ""
-        while result == "":
-          result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
-          time.sleep(0.05)
-        
-        add_message(prompt, 'user')
-        add_message(result, 'bot')
-        
-        textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-        textarea.clear()
-        time.sleep(0.05)
-        
-  except:
-    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-    textarea.clear()
-    add_message(prompt, 'user')
-    add_message("Riprova a farmi la domanda", 'bot')
+            result = ""
+            while result == "":
+              result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+              time.sleep(0.05)
+
+    
+            add_message(prompt, 'user')
+            add_message(result, 'bot')
+            
+            textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+            textarea.clear()
+            time.sleep(0.05)
+            
+        except:
+            textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+            textarea.clear()
+            add_message(prompt, 'user')
+            add_message("Riprova a farmi la domanda", 'bot')
     
 
 print(st.session_state['bot'])
