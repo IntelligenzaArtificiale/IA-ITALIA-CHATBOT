@@ -55,27 +55,34 @@ def get_driver():
 driver = get_driver()
 
 # crea lo stack di messaggi
-messages = []
+if 'user' not in st.session_state:
+    st.session_state['user'] = []
+
+if 'bot' not in st.session_state:
+    st.session_state['bot'] = []
+    # mostra il messaggio di benvenuto
+    add_message("Ciao, sono il chatBOT di Intelligenza Artificiale Italia 🤖🇮🇹", 'bot')
 
 # aggiunge il messaggio in chat
 def add_message(content, sender):
-    messages.append((content, sender))
+    if sender == 'bot':
+        st.session_state['bot'].append(content)
+    else:
+        st.session_state['user'].append(content)
 
 # mostra tutti i messaggi
 def show_messages():
-    for message in messages:
-        content, sender = message
-        if sender == 'bot':
-            st.write(f'<div class="message bot">{content}</div>', unsafe_allow_html=True)
-        else:
-            st.write(f'<div class="message user">{content}</div>', unsafe_allow_html=True)
+    # mostra un messaggio in stile chat
+    for user, bot in zip(st.session_state['user'], st.session_state['bot']):
+        st.markdown(f'<p class="message user">{user}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="message bot">{bot}</p>', unsafe_allow_html=True)
+
+
 
 
 prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
 
 if st.button("Chiedi 🚀"):
-  add_message(prompt, 'user')
-  show_messages()
   with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
@@ -89,7 +96,7 @@ if st.button("Chiedi 🚀"):
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
     
-    
+    add_message(prompt, 'user')
     add_message(result, 'bot')
     
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
