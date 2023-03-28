@@ -163,5 +163,4 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 add_message("Riprova a farmi la domanda", 'bot')
             
 print(st.session_state['bot'])
-show_messages_alto()
 
