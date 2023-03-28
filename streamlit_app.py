@@ -75,24 +75,23 @@ def show_messages():
 
 
 if st.button("Chiedi 🚀"):
-  add_message(prompt, 'user')
-  with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
-    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-    textarea.send_keys(prompt)
-    print(textarea.text)
-    
-    button = driver.find_element(By.ID, "modelSubmitButton")
-    button.click()
+  #with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
+  textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+  textarea.send_keys(prompt)
+  
+  button = driver.find_element(By.ID, "modelSubmitButton")
+  button.click()
 
-    result = ""
-    while result == "":
-      result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
-      time.sleep(0.05)
-    
-    add_message(result, 'bot')
-    
-    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-    textarea.clear()
+  result = ""
+  while result == "":
+    result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+    time.sleep(0.05)
+  
+  add_message(prompt, 'user')
+  add_message(result, 'bot')
+  
+  textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+  textarea.clear()
     
 
 print(st.session_state['bot'])
