@@ -43,8 +43,6 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from streamlit_chat_media import message
 from craiyon import Craiyon
-from PIL import Image 
-from io import BytesIO
 import translators.server as tts
 import base64
 import time 
@@ -126,7 +124,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             image_files = Generate(new_request)
             if image_files != "Error":
                 for i in image_files:
-                    html_image = f'<img src="{i}"/>'
+                    html_image = f'<img src="{i}" style="max-width: 100%;" />'
                     add_message(html_image, 'bot')
                 
             else:
