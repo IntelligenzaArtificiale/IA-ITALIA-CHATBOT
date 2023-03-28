@@ -1,33 +1,16 @@
 
 import streamlit as st
-st.set_page_config(layout="wide")
+st.set_page_config(
+    page_title="Streamlit Chat - Demo",
+    page_icon=":robot:",
+    layout="wide"
+)
 
 """
 ### Il chatBOT di [Intelligenza Artificiale Italia](https://www.intelligenzaartificialeitalia.net/)🧠🤖🇮🇹 
 
 
 """
-
-# definisce il layout dei messaggi
-CSS = """
-    .message {
-        padding: 10px;
-        border-radius: 10px;
-        margin: 5px;
-        max-width: 60%;
-    }
-    .bot {
-        background-color: #E8F5E9;
-        align-self: flex-start;
-    }
-    .user {
-        background-color: #FFF;
-        align-self: flex-end;
-    }
-"""
-
-# crea lo stile
-st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 
 from selenium import webdriver
@@ -36,6 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+from streamlit_chat import message
 import time 
 
 
@@ -57,6 +41,9 @@ driver = get_driver()
 # crea lo stack di messaggi
 if 'user' not in st.session_state:
     st.session_state['user'] = []
+    prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
+else:
+    prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
 if 'bot' not in st.session_state:
     st.session_state['bot'] = []
@@ -73,15 +60,10 @@ def add_message(content, sender):
 
 # mostra tutti i messaggi
 def show_messages():
-    # mostra un messaggio in stile chat
-    for user, bot in zip(st.session_state['user'], st.session_state['bot']):
-        st.markdown(f'<p class="message user">{user}</p>', unsafe_allow_html=True)
-        st.markdown(f'<p class="message bot">{bot}</p>', unsafe_allow_html=True)
+    for i in range(len(st.session_state['bot'])-1, -1, -1):
+        message(st.session_state["bot"][i], key=str(i))
+        message(st.session_state['user'][i], is_user=True, key=str(i) + '_user')
 
-
-
-
-prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
 
 if st.button("Chiedi 🚀"):
   with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
@@ -103,4 +85,5 @@ if st.button("Chiedi 🚀"):
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
     
-    show_messages()
+show_messages()
+driver.quit()
