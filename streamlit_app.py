@@ -45,8 +45,8 @@ from streamlit_chat import message
 from craiyon import Craiyon
 from PIL import Image 
 from io import BytesIO
-import streamlit as st
 import translators.server as tts
+import base64
 import time 
 
 
@@ -94,7 +94,7 @@ def show_messages_alto():
       message(st.session_state['bot'][i], key=str(i))
   else:
       while i > 0:
-        message(st.session_state['bot'][i], key=str(i))
+        message(st.session_state['bot'][i], key=str(i), allow_html=True)
         message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
         i -= 1
 
@@ -116,7 +116,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
   try:
     # se il prompt inizia con /img 
     if prompt.startswith("/img"):
-      with st.spinner(" 💡 Il nostro chatBOT sta cercando, potrebbe volerci qualche secondo ⏳"):
+      with st.spinner(" 💡 Il nostro chatBOT sta creando 9 immagini, potrebbe volerci qualche secondo ⏳"):
         prompt = prompt[4:]
         new_request = tts.google(prompt, from_language="it", to_language="en")
         image_files = Generate(new_request)
@@ -124,7 +124,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
           for image in image_files:
             image = Image.open(BytesIO(image))
             #create html tag
-            add_message(f'<img src="data:image/png;base64,{image}" width="100%" height="100%">', 'bot')
+            add_message(f'<img src="data:image/png;base64,{image}">', 'bot')
     else:
       with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
         textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
@@ -144,6 +144,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
         textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
         textarea.clear()
         time.sleep(0.05)
+        
   except:
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
