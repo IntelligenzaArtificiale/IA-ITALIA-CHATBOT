@@ -31,7 +31,7 @@ options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) A
 
 driver = get_driver()
 
-prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
+prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
 if st.button("Chiedi 🚀"):
   with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
