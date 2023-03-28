@@ -116,15 +116,14 @@ prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
 if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
 # se il prompt inizia con /img 
     if prompt.startswith("/img"):
-        with st.spinner(" 💡 Il nostro chatBOT sta creando 9 immagini, potrebbe volerci qualche secondo ⏳"):
-    
+        with st.spinner(" 💡 Il nostro chatBOT sta creando 9 immagini, potrebbe volerci qualche secondo ⏳"): 
             prompt = prompt[4:]
             new_request = tts.google(prompt, from_language="it", to_language="en")
             image_files = Generate(new_request)
             if image_files != "Error":
                 html_message_image = 'Queste sono le immagini che ti ho generato 🤖📸: \n\n'
                 for i in image_files:
-                    html_image = f'* Immagine 1\n<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
+                    html_image = f'* 🤖📸\n<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
                     html_message_image += html_image
                 add_message(prompt, 'user')
                 add_message(html_message_image, 'bot')
