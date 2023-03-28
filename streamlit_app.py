@@ -62,12 +62,22 @@ def add_message(content, sender):
 # mostra tutti i messaggi
 def show_messages():
   for i in range(len(st.session_state['bot'])):
-      if i == 0:
-          message(st.session_state['bot'][i], key=str(i))
-      else:
-          message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
-          message(st.session_state['bot'][i], key=str(i))
-
+    if i == 0:
+      message(st.session_state['bot'][i], key=str(i))
+    else:
+      message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+      message(st.session_state['bot'][i], key=str(i))
+          
+def show_messages_alto():
+  # stampa i messaggi in modo che il più nuovo sia sempre in alto
+  i = len(st.session_state['bot']) - 1
+  if i == 0:
+      message(st.session_state['bot'][i], key=str(i))
+  else:
+      while i > 0:
+        message(st.session_state['bot'][i], key=str(i))
+        message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+        i -= 1
 
 prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
@@ -99,5 +109,5 @@ if st.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
     
 
 print(st.session_state['bot'])
-show_messages()
+show_messages_alto()
 
