@@ -47,8 +47,9 @@ if st.button("Chiedi 🚀"):
 
     result = ""
     while result == "":
-      result = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(lambda x: x.find_element(By.CLASS_NAME, "try-it-result-area").text)
+      result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+      time.sleep(0.05)
     
-    WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(lambda x: x.find_element(By.CLASS_NAME, "model-input-text-input").clear())
+    WebDriverWait(driver, 1, ignored_exceptions=ignored_exceptions).until(lambda x: x.find_element(By.CLASS_NAME, "model-input-text-input").clear())
     
     st.write(result)
