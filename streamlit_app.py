@@ -65,5 +65,5 @@ if user_col.button('Invia'):
         show_chat()
         st.balloons()  # effetto wow!
 
-# Chiudi il driver di Chrome
+# Chiudi il driver di Chrome 
 driver.quit()
