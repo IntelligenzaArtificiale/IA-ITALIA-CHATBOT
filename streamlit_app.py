@@ -87,4 +87,4 @@ if st.button("Chiedi 🚀"):
     textarea.clear()
     
 show_messages()
-driver.quit()
+
