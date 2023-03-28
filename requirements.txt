@@ -1,6 +1,6 @@
 streamlit
 seleniumbase
 webdriver-manager
-streamlit-chat-media==0.0.2
+streamlit-chat-media==0.0.3
 translators
 craiyon.py==0.3.0
