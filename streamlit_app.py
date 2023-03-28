@@ -123,8 +123,9 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             if image_files != "Error":
                 html_message_image = 'Queste sono le immagini che ti ho generato 🤖📸: \n\n'
                 for i in image_files:
-                    html_image = f'* 🤖📸\n<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
+                    html_image = f'<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
                     html_message_image += html_image
+                html_message_image += '\n\n🤖 Che ne pensi? ti piacciono?'
                 add_message(prompt, 'user')
                 add_message(html_message_image, 'bot')
                 
