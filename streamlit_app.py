@@ -41,9 +41,6 @@ driver = get_driver()
 # crea lo stack di messaggi
 if 'user' not in st.session_state:
     st.session_state['user'] = []
-    prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
-else:
-    prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
 if 'bot' not in st.session_state:
     st.session_state['bot'] = []
@@ -72,25 +69,33 @@ def show_messages():
             message(st.session_state['bot'][i], key=str(i))
 
 
+prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
 if st.button("Chiedi 🚀"):
-  #with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
-  textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-  textarea.send_keys(prompt)
-  
-  button = driver.find_element(By.ID, "modelSubmitButton")
-  button.click()
-
-  result = ""
-  while result == "":
-    result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+  try:
+    #with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
+    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+    textarea.send_keys(prompt)
     time.sleep(0.05)
-  
-  add_message(prompt, 'user')
-  add_message(result, 'bot')
-  
-  textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-  textarea.clear()
+    button = driver.find_element(By.ID, "modelSubmitButton")
+    button.click()
+
+    result = ""
+    while result == "":
+      result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+      time.sleep(0.05)
+    
+    add_message(prompt, 'user')
+    add_message(result, 'bot')
+    
+    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+    textarea.clear()
+    time.sleep(0.05)
+  except:
+    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+    textarea.clear()
+    add_message(prompt, 'user')
+    add_message("Riprova a farmi la domanda", 'bot')
     
 
 print(st.session_state['bot'])
