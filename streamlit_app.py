@@ -88,15 +88,20 @@ def add_message(content, sender):
       
           
 def show_messages_alto():
-  # stampa i messaggi in modo che il più nuovo sia sempre in alto
-  i = len(st.session_state['bot']) - 1
-  if i == 0:
-      message(st.session_state['bot'][i], key=str(i))
-  else:
-      while i > 0:
-        message(st.session_state['bot'][i], key=str(i), allow_html=True)
-        message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
-        i -= 1
+    # stampa i messaggi in modo che il più nuovo sia sempre in alto
+    # inoltre il bot può inviare più messaggi di risposta per ogni messaggio dell'utente
+    i = len(st.session_state['bot']) - 1
+    l = len(st.session_state['user']) - 1
+    if i == 0:
+        message(st.session_state['bot'][i], key=str(i))
+    else:
+        while i > 0:
+            message(st.session_state['bot'][i], key=str(i), allow_html=True)
+            if l >= i:
+                message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+            i -= 1
+    
+
 
 def Generate(request):
 	try:
