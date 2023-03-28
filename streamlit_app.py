@@ -112,7 +112,7 @@ st.write("")
 
 col1, col2 = st.columns([3, 1])
 prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
-
+show_messages_alto()
 if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
 # se il prompt inizia con /img 
     if prompt.startswith("/img"):
