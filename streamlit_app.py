@@ -124,7 +124,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             if image_files != "Error":
                 html_message_image = ''
                 for i in image_files:
-                    html_image = f'<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
+                    html_image = f' ![image]({i}) \n'
                     html_message_image += html_image
                 add_message(prompt, 'user')
                 add_message(html_message_image, 'bot')
