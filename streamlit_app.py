@@ -41,7 +41,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from streamlit_chat import message
+from streamlit_chat_media import message
 from craiyon import Craiyon
 from PIL import Image 
 from io import BytesIO
@@ -134,6 +134,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
         
       with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
         try:
+            
             textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
             textarea.send_keys(prompt)
             time.sleep(0.05)
@@ -152,13 +153,14 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
             textarea.clear()
             time.sleep(0.05)
-            
-        except:
+
+        except Exception as e:
+            print(e)
             textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
             textarea.clear()
             add_message(prompt, 'user')
             add_message("Riprova a farmi la domanda", 'bot')
-    
+
 
 print(st.session_state['bot'])
 show_messages_alto()
