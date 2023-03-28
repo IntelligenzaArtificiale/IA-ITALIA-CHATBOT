@@ -7,6 +7,29 @@ st.set_page_config(layout="wide")
 
 
 """
+
+# definisce il layout dei messaggi
+CSS = """
+    .message {
+        padding: 10px;
+        border-radius: 10px;
+        margin: 5px;
+        max-width: 60%;
+    }
+    .bot {
+        background-color: #E8F5E9;
+        align-self: flex-start;
+    }
+    .user {
+        background-color: #FFF;
+        align-self: flex-end;
+    }
+"""
+
+# crea lo stile
+st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
@@ -31,9 +54,28 @@ def get_driver():
 
 driver = get_driver()
 
+# crea lo stack di messaggi
+messages = []
+
+# aggiunge il messaggio in chat
+def add_message(content, sender):
+    messages.append((content, sender))
+
+# mostra tutti i messaggi
+def show_messages():
+    for message in messages:
+        content, sender = message
+        if sender == 'bot':
+            st.write(f'<div class="message bot">{content}</div>', unsafe_allow_html=True)
+        else:
+            st.write(f'<div class="message user">{content}</div>', unsafe_allow_html=True)
+
+
 prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...", "Puoi spiegarmi in modo semplice cosa è l'Intelligenza Artificiale ?")
 
 if st.button("Chiedi 🚀"):
+  add_message(prompt, 'user')
+  show_messages()
   with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
@@ -46,9 +88,11 @@ if st.button("Chiedi 🚀"):
     while result == "":
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
-        
+    
+    
+    add_message(result, 'bot')
+    
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
     
-    
-    st.write(result)
+    show_messages()
