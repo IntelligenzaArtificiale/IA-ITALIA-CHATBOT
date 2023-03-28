@@ -74,7 +74,7 @@ if 'user' not in st.session_state:
 if 'bot' not in st.session_state:
     st.session_state['bot'] = []
     # mostra il messaggio di benvenuto
-    st.session_state['bot'].append('Ciao, sono il chatBOT di Intelligenza Artificiale Italia 🧠🤖🇮🇹, puoi chiedermi qualunque cosa riguardo l\'Intelligenza Artificiale, ti risponderò il prima possibile 🚀')
+    st.session_state['bot'].append('Ciao, sono il chatBOT di Intelligenza Artificiale Italia 🧠🤖🇮🇹, puoi chiedermi qualunque cosa riguardo l\'Intelligenza Artificiale, ti risponderò il prima possibile 🚀 \n\n🧑‍🎨 Usa /img davanti al tuo messaggio per chiedermi di creare 9 immagini a tema, ad esempio: \n\n * /img un cane che corre \n\n🤖 Buon divertimento!')
 
 
 # aggiunge il messaggio in chat
@@ -91,7 +91,7 @@ def show_messages_alto():
     i = len(st.session_state['bot']) - 1
     l = len(st.session_state['user']) - 1
     if i == 0:
-        message(st.session_state['bot'][i], key=str(i))
+        message(st.session_state['bot'][i], key=str(i), allow_html=True)
     else:
         while i > 0:
             message(st.session_state['bot'][i], key=str(i), allow_html=True)
@@ -122,10 +122,12 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             prompt = prompt[4:]
             new_request = tts.google(prompt, from_language="it", to_language="en")
             image_files = Generate(new_request)
+            html_message_image = f'<div style="max-width: 400px; display: flex; flex-wrap: wrap;">'
             if image_files != "Error":
                 for i in image_files:
-                    html_image = f'<img src="{i}" style="max-width: 100%;" />'
-                    add_message(html_image, 'bot')
+                    html_image = f'<img src="{i}" style="max-width: 100%;  flex-basis: 33.33%;" />'
+                    html_message_image += html_image
+                add_message(html_image, 'bot')
                 
             else:
                 add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
