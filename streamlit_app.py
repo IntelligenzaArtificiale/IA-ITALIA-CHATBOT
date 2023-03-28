@@ -15,7 +15,6 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time 
 
-ignored_exceptions=(NoSuchElementException,StaleElementReferenceException)
 
 
 @st.cache_resource
