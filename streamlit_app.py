@@ -93,7 +93,7 @@ if 'bot' in st.session_state:
     if i == 0:
         message(st.session_state['bot'][i], key=str(i), allow_html=True)
     else:
-        i = 0
+        i = 1
         while i < len(st.session_state['bot']):
             message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
             message(st.session_state['bot'][i], key=str(i), allow_html=True)
