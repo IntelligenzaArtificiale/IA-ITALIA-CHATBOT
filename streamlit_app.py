@@ -131,7 +131,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                         img_path = f"data:image/png;base64,{base64.b64encode(image.getvalue()).decode()}"
                         add_message(f'<img width="100%" height="200" src="{img_path}"/>', 'bot')
             except Exception as e:
-                add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
+                add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi , " + e, 'bot')
                 print(e)   
     else: 
         with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
