@@ -126,10 +126,12 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 new_request = tts.google(prompt, from_language="it", to_language="en")
                 image_files = Generate(new_request)
                 if image_files != "Error":
-                    for image in image_files:
-                        image = Image.open(BytesIO(image))
-                        img_path = f"data:image/png;base64,{base64.b64encode(image.getvalue()).decode()}"
-                        add_message(f'<img width="100%" height="200" src="{img_path}"/>', 'bot')
+                    i = 0
+                    while i < 9:
+                        image = Image.open(BytesIO(image_files[i]))
+                        html_img = f'<img src="data:image/png;base64,{base64.b64encode(image.tobytes()).decode()}" alt="image" style="width: 100%; height: 100%; object-fit: contain;"/>'
+                        add_message(html_img, 'bot')
+                        i += 1
                 else:
                     add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
             except Exception as e:
