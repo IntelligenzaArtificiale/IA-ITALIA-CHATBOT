@@ -130,7 +130,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                     img_data = BytesIO(base64.decodebytes(i.encode("utf-8")))
                     img = Image.open(img_data)
                     html_image = f'<img src="data:image/png;base64,{base64.b64encode(i.encode()).decode()}"/>'
-                    add_message(html_img, 'bot')
+                    add_message(html_image, 'bot')
                 
             else:
                 add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
