@@ -7,6 +7,9 @@ st.set_page_config(
 )
 
 st.markdown('<style> \
+     #MainMenu {visibility: hidden;} \
+     footer {visibility: hidden;} \
+     header {visibility: hidden;} \
     .css-1x8cf1d { \
     display: inline-flex; \
     -webkit-box-align: center; \
@@ -106,7 +109,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             new_request = tts.google(prompt, from_language="it", to_language="en")
             image_files = Generate(new_request)
             if image_files != "Error":
-                html_message_image = 'Queste sono le immagini che ti ho generato 🤖📸: \n\n'
+                html_message_image = ''
                 for i in image_files:
                     html_image = f'<img src="{i}" style="max-width: 200px;  flex-basis: 33.33%; border-radius: 10px; margin: 5px; height: auto; "/>'
                     html_message_image += html_image
