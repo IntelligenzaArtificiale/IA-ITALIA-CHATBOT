@@ -85,7 +85,7 @@ def add_message(content, sender):
       st.session_state['user'].append(content)
       
           
-def show_messages_alto():
+if 'bot' in st.session_state:
     # stampa i messaggi in modo che il più nuovo sia sempre in alto
     # inoltre il bot può inviare più messaggi di risposta per ogni messaggio dell'utente
     i = len(st.session_state['bot']) - 1
@@ -93,9 +93,10 @@ def show_messages_alto():
     if i == 0:
         message(st.session_state['bot'][i], key=str(i), allow_html=True)
     else:
-        while i > 0:
-            message(st.session_state['bot'][i], key=str(i), allow_html=True)
+        i = 0
+        while i < len(st.session_state['bot']):
             message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+            message(st.session_state['bot'][i], key=str(i), allow_html=True)
             i -= 1
     
 
@@ -112,7 +113,7 @@ st.write("")
 
 col1, col2 = st.columns([3, 1])
 prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
-show_messages_alto()
+
 if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
 # se il prompt inizia con /img 
     if prompt.startswith("/img"):
@@ -163,4 +164,4 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 add_message("Riprova a farmi la domanda", 'bot')
             
 print(st.session_state['bot'])
-
+print(st.session_state['user'])
