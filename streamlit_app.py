@@ -11,8 +11,6 @@ from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time 
@@ -49,7 +47,9 @@ if st.button("Chiedi 🚀"):
     while result == "":
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
+        
+    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+    textarea.clear()
     
-    WebDriverWait(driver, 1, ignored_exceptions=ignored_exceptions).until(lambda x: x.find_element(By.CLASS_NAME, "model-input-text-input").clear())
     
     st.write(result)
