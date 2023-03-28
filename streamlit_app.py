@@ -66,7 +66,7 @@ def show_messages():
     #pero controlla sempre che non ci sia un index out of range
     for i in range(len(st.session_state['bot'])):
         if i == 0:
-            message(st.session_state['bot'][i], sender='bot')
+            message(st.session_state['bot'][i], key=str(i))
         else:
             message(st.session_state['bot'][i], key=str(i))
             message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
