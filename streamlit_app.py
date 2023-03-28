@@ -62,11 +62,14 @@ def add_message(content, sender):
 def show_messages():
     for i in range(len(st.session_state['bot'])-1, -1, -1):
         message(st.session_state["bot"][i], key=str(i))
-        if len(st.session_state['user']) > 0:
+        # aggiungi un controllo per evitare index out of range
+        if i < len(st.session_state['user']):          
           message(st.session_state['user'][i], is_user=True, key=str(i) + '_user')
 
 
+
 if st.button("Chiedi 🚀"):
+  add_message(prompt, 'user')
   with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.send_keys(prompt)
@@ -80,7 +83,7 @@ if st.button("Chiedi 🚀"):
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
     
-    add_message(prompt, 'user')
+    
     add_message(result, 'bot')
     
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
