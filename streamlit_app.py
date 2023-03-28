@@ -60,11 +60,16 @@ def add_message(content, sender):
 
 # mostra tutti i messaggi
 def show_messages():
-    for i in range(len(st.session_state['bot'])-1, -1, -1):
-        message(st.session_state["bot"][i], key=str(i))
-        # aggiungi un controllo per evitare index out of range
-        if i < len(st.session_state['user']):          
-          message(st.session_state['user'][i], is_user=True, key=str(i) + '_user')
+    # mostra i messaggi come una chat, considerando che il bot da il messaggio di benvenuto
+    # e quindi il primo messaggio è sempre del bot
+    #pero controlla sempre che non ci sia un index out of range
+    for i in range(len(st.session_state['bot'])):
+        if i == 0:
+            message(st.session_state['bot'][i], sender='bot')
+        else:
+            message(st.session_state['bot'][i], key=str(i))
+            message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+      
 
 
 
@@ -83,11 +88,13 @@ if st.button("Chiedi 🚀"):
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
     
-    
+    print(result)
     add_message(result, 'bot')
     
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
     
+print(result)
+print(st.session_state['bot'])
 show_messages()
 
