@@ -95,8 +95,7 @@ def show_messages_alto():
     else:
         while i > 0:
             message(st.session_state['bot'][i], key=str(i), allow_html=True)
-            if l >= i:
-                message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
+            message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
             i -= 1
     
 
@@ -125,7 +124,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
             html_message_image = f'<div style="max-width: 300px; display: flex; flex-wrap: wrap;">'
             if image_files != "Error":
                 for i in image_files:
-                    html_image = f'<img src="{i}" style="max-width: 100%;  flex-basis: 33.33%;" />'
+                    html_image = f'<img src="{i}" style="max-width: 100%;  flex-basis: 33.33%; border-radius: 10px; margin: 5px;"/>'
                     html_message_image += html_image
                 html_message_image += "</div>"
                 add_message(html_message_image, 'bot')
