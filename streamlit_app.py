@@ -58,6 +58,7 @@ def add_message(content, sender):
     else:
         st.session_state['user'].append(content)
 
+
 # mostra tutti i messaggi
 def show_messages():
     # mostra i messaggi come una chat, considerando che il bot da il messaggio di benvenuto
@@ -88,13 +89,12 @@ if st.button("Chiedi 🚀"):
       result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
       time.sleep(0.05)
     
-    print(result)
     add_message(result, 'bot')
     
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
     
-print(result)
+
 print(st.session_state['bot'])
 show_messages()
 
