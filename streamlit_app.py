@@ -41,7 +41,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from streamlit_chat import message
+from streamlit_chat_media import message
 from craiyon import Craiyon
 from PIL import Image 
 from io import BytesIO
