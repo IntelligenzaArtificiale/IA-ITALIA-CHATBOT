@@ -127,6 +127,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                     html_image = f'<img src="{i}" style="max-width: 100%;  flex-basis: 33.33%; border-radius: 10px; margin: 5px;"/>'
                     html_message_image += html_image
                 html_message_image += "</div>"
+                add_message(prompt, 'user')
                 add_message(html_message_image, 'bot')
                 
             else:
