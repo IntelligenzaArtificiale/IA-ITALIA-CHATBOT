@@ -24,19 +24,20 @@ import time
 
 
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def get_driver():
-  options = webdriver.ChromeOptions()
-  options.add_argument('--disable-gpu')
-  options.add_argument('--headless')
-  options.add_argument('--no-sandbox')      
-  options.add_argument('--disable-dev-shm-usage')    
-  options.add_argument("--disable-features=NetworkService")
-  options.add_argument("--window-size=1920x1080")
-  options.add_argument("--disable-features=VizDisplayCompositor")    
-  options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
-  driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-  driver.get('https://deepai.org/machine-learning-model/text-generator')
+  with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--disable-gpu')
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')      
+    options.add_argument('--disable-dev-shm-usage')    
+    options.add_argument("--disable-features=NetworkService")
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument("--disable-features=VizDisplayCompositor")    
+    options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver.get('https://deepai.org/machine-learning-model/text-generator')
   return driver
 
 driver = get_driver()
@@ -79,28 +80,30 @@ def show_messages_alto():
         message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
         i -= 1
 
-prompt = st.text_input("🤔 Puoi chiedergli qualunque cosa...")
 
-if st.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
+col1, col2 = st.columns([3, 1])
+prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
+
+if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
   try:
-    #with st.spinner(" 💡 Il nostro chatBOT sta elaborando la miglior risposta per te, potrebbe volerci qualche secondo ⏳"):
-    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-    textarea.send_keys(prompt)
-    time.sleep(0.05)
-    button = driver.find_element(By.ID, "modelSubmitButton")
-    button.click()
-
-    result = ""
-    while result == "":
-      result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+    with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
+      textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+      textarea.send_keys(prompt)
       time.sleep(0.05)
-    
-    add_message(prompt, 'user')
-    add_message(result, 'bot')
-    
-    textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
-    textarea.clear()
-    time.sleep(0.05)
+      button = driver.find_element(By.ID, "modelSubmitButton")
+      button.click()
+
+      result = ""
+      while result == "":
+        result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
+        time.sleep(0.05)
+      
+      add_message(prompt, 'user')
+      add_message(result, 'bot')
+      
+      textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
+      textarea.clear()
+      time.sleep(0.05)
   except:
     textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
     textarea.clear()
