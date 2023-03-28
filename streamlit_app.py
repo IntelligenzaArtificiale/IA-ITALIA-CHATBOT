@@ -61,7 +61,8 @@ if 'user' not in st.session_state:
 if 'bot' not in st.session_state:
     st.session_state['bot'] = []
     # mostra il messaggio di benvenuto
-    add_message("Ciao, sono il chatBOT di Intelligenza Artificiale Italia 🤖🇮🇹", 'bot')
+    st.session_state['bot'].append('Ciao, sono il chatBOT di Intelligenza Artificiale Italia 🧠🤖🇮🇹, puoi chiedermi qualunque cosa riguardo l\'Intelligenza Artificiale, ti risponderò il prima possibile 🚀')
+
 
 # aggiunge il messaggio in chat
 def add_message(content, sender):
