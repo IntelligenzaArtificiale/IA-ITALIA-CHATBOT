@@ -6,10 +6,32 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown('<style> \
+    .css-1x8cf1d { \
+    display: inline-flex; \
+    -webkit-box-align: center; \
+    align-items: center; \
+    -webkit-box-pack: center; \
+    justify-content: center; \
+    font-weight: 400; \
+    padding: 0.25rem 0.75rem; \
+    border-radius: 0.25rem; \
+    margin: 0px; \
+    line-height: 1.6; \
+    color: inherit; \
+    width: 100%; \
+    height: 100%; \
+    user-select: none; \
+    background-color: rgb(255, 255, 255); \
+    border: 1px solid rgba(49, 51, 63, 0.2); \
+    } \
+    .css-12w0qpk {\
+    transform: translateY(45%); \
+    } <style>', unsafe_allow_html=True)
+
+
 """
 ### Il chatBOT di [Intelligenza Artificiale Italia](https://www.intelligenzaartificialeitalia.net/)🧠🤖🇮🇹 
-
-
 """
 
 
@@ -80,6 +102,8 @@ def show_messages_alto():
         message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
         i -= 1
 
+
+st.write("")
 
 col1, col2 = st.columns([3, 1])
 prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
