@@ -1,7 +1,7 @@
 
 import streamlit as st
 st.set_page_config(
-    page_title="Streamlit Chat - Demo",
+    page_title="🧠🤖🇮🇹 - Beta ChatBOT Intelligenza Artificiale Italia",
     page_icon=":robot:",
     layout="wide"
 )
@@ -62,7 +62,8 @@ def add_message(content, sender):
 def show_messages():
     for i in range(len(st.session_state['bot'])-1, -1, -1):
         message(st.session_state["bot"][i], key=str(i))
-        message(st.session_state['user'][i], is_user=True, key=str(i) + '_user')
+        if len(st.session_state['user']) > 0:
+          message(st.session_state['user'][i], is_user=True, key=str(i) + '_user')
 
 
 if st.button("Chiedi 🚀"):
