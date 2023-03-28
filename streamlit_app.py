@@ -121,22 +121,20 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
 # se il prompt inizia con /img 
     if prompt.startswith("/img"):
         with st.spinner(" 💡 Il nostro chatBOT sta creando 9 immagini, potrebbe volerci qualche secondo ⏳"):
-            try :
-                prompt = prompt[4:]
-                new_request = tts.google(prompt, from_language="it", to_language="en")
-                image_files = Generate(new_request)
-                if image_files != "Error":
-                    i = 0
-                    while i < 9:
-                        image = Image.open(BytesIO(image_files[i]))
-                        html_img = f'<img src="data:image/png;base64,{base64.b64encode(image.tobytes()).decode()}" alt="image" style="width: 100%; height: 100%; object-fit: contain;"/>'
-                        add_message(html_img, 'bot')
-                        i += 1
-                else:
-                    add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
-            except Exception as e:
-                add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi , " + str(e), 'bot')
-                print(e)   
+    
+            prompt = prompt[4:]
+            new_request = tts.google(prompt, from_language="it", to_language="en")
+            image_files = Generate(new_request)
+            if image_files != "Error":
+                i = 0
+                while i < 9:
+                    image = Image.open(BytesIO(image_files[i]))
+                    html_img = f'<img src="data:image/png;base64,{base64.b64encode(image.tobytes()).decode()}" alt="image" style="width: 100%; height: 100%; object-fit: contain;"/>'
+                    add_message(html_img, 'bot')
+                    i += 1
+            else:
+                add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
+             
     else: 
         with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
             try:
