@@ -8,7 +8,6 @@ st.set_page_config(
 
 st.markdown('<style> \
      footer {visibility: hidden;} \
-     header {visibility: hidden;} \
     .css-1x8cf1d { \
     display: inline-flex; \
     -webkit-box-align: center; \
@@ -50,7 +49,6 @@ import base64
 import time 
 
 
-@st.experimental_singleton
 @st.cache_resource(show_spinner=False)
 def get_driver(sessione):
   with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
@@ -123,6 +121,7 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 
             else:
                 add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
+                get_driver(st.session_state['sessione']).clear()
              
     else: 
         with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
