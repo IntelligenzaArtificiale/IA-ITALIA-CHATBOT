@@ -99,6 +99,7 @@ def Generate(request):
 		return "Error"
 
 st.write("")
+st.write("id : ", st.session_state['sessione'])
 
 col1, col2 = st.columns([3, 1])
 prompt = col1.text_input("🤔 Puoi chiedergli qualunque cosa...")
