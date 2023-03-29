@@ -49,7 +49,7 @@ import base64
 import time 
 
 
-#@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner=False)
 def get_driver():
   with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
     options = webdriver.ChromeOptions()
