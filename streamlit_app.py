@@ -49,7 +49,7 @@ import base64
 import time 
 
 
-if 'driver' not in st.session_state or driver.page_source == "":
+if 'driver' not in st.session_state or st.session_state['driver'].page_source == "":
     with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-gpu')
