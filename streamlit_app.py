@@ -63,7 +63,6 @@ if 'driver' not in st.session_state or driver.page_source == "":
         driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         driver.get('https://deepai.org/machine-learning-model/text-generator')
         st.write(driver.window_handles)
-        st.write(sessione)
         st.session_state['driver'] = driver
 
     
