@@ -64,6 +64,7 @@ if 'driver' not in st.session_state or st.session_state['driver'].page_source ==
         driver.get('https://deepai.org/machine-learning-model/text-generator')
         st.write(driver.window_handles)
         st.session_state['driver'] = driver
+        driver.quit()
 
     
 
