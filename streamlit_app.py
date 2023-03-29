@@ -63,7 +63,8 @@ def get_driver(sessione):
     options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get('https://deepai.org/machine-learning-model/text-generator')
-    st.write(driver.window_handles + " - " + sessione)
+    st.write(driver.window_handles)
+    st.write(sessione)
   return driver
 
 if 'sessione' not in st.session_state:
