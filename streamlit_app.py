@@ -152,7 +152,9 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 textarea.clear()
                 add_message(prompt, 'user')
                 add_message("Riprova a farmi la domanda", 'bot')
+                get_driver(st.session_state['sessione']).clear()
             
+
 print(st.session_state['bot'])
 print(st.session_state['user'])
 
@@ -170,3 +172,4 @@ if 'bot' in st.session_state:
             message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
             i -= 1
 
+driver.quit()
