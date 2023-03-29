@@ -49,7 +49,7 @@ import base64
 import time 
 
 
-@st.cache_resource(show_spinner=False)
+#@st.cache_resource(show_spinner=False)
 def get_driver():
   with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
     options = webdriver.ChromeOptions()
@@ -62,7 +62,12 @@ def get_driver():
     options.add_argument("--disable-features=VizDisplayCompositor")    
     options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+    driver.get("www.example.com")
+    driver.execute_script("window.open('');")
     driver.get('https://deepai.org/machine-learning-model/text-generator')
+    driver.switch_to.window(driver.window_handles[1])
+    st.write(driver.headless)
   return driver
 
 
