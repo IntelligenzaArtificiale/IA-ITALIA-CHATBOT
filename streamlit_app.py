@@ -7,7 +7,6 @@ st.set_page_config(
 )
 
 st.markdown('<style> \
-     #MainMenu {visibility: hidden;} \
      footer {visibility: hidden;} \
      header {visibility: hidden;} \
     .css-1x8cf1d { \
@@ -51,9 +50,9 @@ import base64
 import time 
 
 
-
+@st.experimental_singleton
 @st.cache_resource(show_spinner=False)
-def get_driver():
+def get_driver(sessione):
   with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
     options = webdriver.ChromeOptions()
     options.add_argument('--disable-gpu')
@@ -68,7 +67,12 @@ def get_driver():
     driver.get('https://deepai.org/machine-learning-model/text-generator')
   return driver
 
-driver = get_driver()
+#crea un id univoco per la sessione
+if 'sessione' not in st.session_state:
+    random_id = base64.b64encode(str(time.time()).encode()).decode()
+    st.session_state['sessione'] = random_id
+
+driver = get_driver(st.session_state['sessione'])
 
 # crea lo stack di messaggi
 if 'user' not in st.session_state:
