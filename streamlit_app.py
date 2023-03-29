@@ -49,25 +49,27 @@ import base64
 import time 
 
 
-if 'driver' not in st.session_state or st.session_state['driver'].page_source == "":
-    with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
-        options = webdriver.ChromeOptions()
-        options.add_argument('--disable-gpu')
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')      
-        options.add_argument('--disable-dev-shm-usage')    
-        options.add_argument("--disable-features=NetworkService")
-        options.add_argument("--window-size=1920x1080")
-        options.add_argument("--disable-features=VizDisplayCompositor")    
-        options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-        driver.get('https://deepai.org/machine-learning-model/text-generator')
-        st.write(driver.window_handles)
-        st.session_state['driver'] = driver
-        driver.quit()
+def get_driver(sessione):
+  with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--disable-gpu')
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')      
+    options.add_argument('--disable-dev-shm-usage')    
+    options.add_argument("--disable-features=NetworkService")
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument("--disable-features=VizDisplayCompositor")    
+    options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver.get('https://deepai.org/machine-learning-model/text-generator')
+    st.write(driver.window_handles)
+    st.write(sessione)
+  return driver
 
-    
+if 'sessione' not in st.session_state:
+    st.session_state['sessione'] = base64.b64encode(str(time.time()).encode()).decode()
 
+driver = get_driver(st.session_state['sessione'])
 
 # crea lo stack di messaggi
 if 'user' not in st.session_state:
@@ -118,38 +120,38 @@ if col2.button("Chiedi 🚀") and prompt != "" and driver.page_source != "":
                 
             else:
                 add_message("🤖 Ops, qualcosa è andato storto, riprova più tardi", 'bot')
-                st.session_state['driver'].quit()
+                get_driver(st.session_state['sessione']).clear()
              
     else: 
         with st.spinner(" 💡 Il nostro chatBOT sta scrivendo, potrebbe volerci qualche secondo ⏳"):
             try:
-                textarea = st.session_state['driver'].find_element(By.CLASS_NAME, "model-input-text-input")
+                textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
                 textarea.send_keys(prompt)
                 time.sleep(0.05)
-                button = st.session_state['driver'].find_element(By.ID, "modelSubmitButton")
+                button = driver.find_element(By.ID, "modelSubmitButton")
                 button.click()
 
                 result = ""
                 while result == "":
-                    result = st.session_state['driver'].find_element(By.CLASS_NAME, "try-it-result-area").text
+                    result = driver.find_element(By.CLASS_NAME, "try-it-result-area").text
                     time.sleep(0.05)
 
 
                 add_message(prompt, 'user')
                 add_message(result, 'bot')
                 
-                textarea = st.session_state['driver'].find_element(By.CLASS_NAME, "model-input-text-input")
+                textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
                 textarea.clear()
                 time.sleep(0.05)
                 
             except Exception as e:
                 
                 print(e)
-                textarea = st.session_state['driver'].find_element(By.CLASS_NAME, "model-input-text-input")
+                textarea = driver.find_element(By.CLASS_NAME, "model-input-text-input")
                 textarea.clear()
                 add_message(prompt, 'user')
                 add_message("Riprova a farmi la domanda", 'bot')
-                st.session_state['driver'].quit()
+                get_driver(st.session_state['sessione']).clear()
             
 
 print(st.session_state['bot'])
@@ -169,4 +171,4 @@ if 'bot' in st.session_state:
             message(st.session_state['user'][i-1], is_user=True, key=str(i) + '_user')
             i -= 1
 
-st.session_state['driver'].quit()
+driver.quit()
