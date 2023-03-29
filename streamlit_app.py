@@ -67,7 +67,7 @@ def get_driver():
     driver.execute_script("window.open('');")
     driver.get('https://deepai.org/machine-learning-model/text-generator')
     driver.switch_to.window(driver.window_handles[1])
-    st.write(driver.headles)
+    st.write(driver.window_handles)
   return driver
 
 
