@@ -49,8 +49,8 @@ import base64
 import time 
 
 
-@st.cache_resource(show_spinner=False, allow_output_mutation=True)
-def get_driver():
+@st.cache_resource(show_spinner=False)
+def get_driver(sessione):
   with st.spinner(" 💡 Il nostro chatBOT sta caricando, potrebbe volerci qualche secondo ⏳"):
     options = webdriver.ChromeOptions()
     options.add_argument('--disable-gpu')
@@ -63,11 +63,13 @@ def get_driver():
     options.add_argument("'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'")
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get('https://deepai.org/machine-learning-model/text-generator')
-    st.write(driver.window_handles)
+    st.write(driver.window_handles + " - " + sessione)
   return driver
 
+if 'sessione' not in st.session_state:
+    st.session_state['sessione'] = base64.b64encode(str(time.time()).encode()).decode()
 
-driver = get_driver()
+driver = get_driver(st.session_state['sessione'])
 
 # crea lo stack di messaggi
 if 'user' not in st.session_state:
